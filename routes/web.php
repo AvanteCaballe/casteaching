@@ -19,21 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/videos/1', [ VideosController::class, 'show']);
-
-//Route::get('/videos/1', function () {
-//////    return 'Ubuntu 101 | # Here description | December 13';
-//
-//    $video = Video::find(1);
-////    $video = new stdClass();
-////    $video->title = 'Ubuntu 101';
-////    $video->description = '# Here description';
-////    $video->published_at = 'December 13';
-//    return view('videos.show', [
-//        'video' => $video
-//    ]);
-//});
-
+Route::get('/videos/{id}', [ VideosController::class, 'show']);
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

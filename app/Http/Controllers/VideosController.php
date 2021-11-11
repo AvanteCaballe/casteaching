@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Video;
-use Illuminate\Http\Request;
+use Tests\Feature\Videos\VideoTest;
 
 class VideosController extends Controller
 {
-    public function show()
+
+    public static function testedBy()
     {
-        $video = Video::find(1);
+        return VideoTest::class;
+    }
+
+
+    public function show($id)
+    {
         return view('videos.show', [
-            'video' => $video
+            'video' => Video::findOrFail($id)
         ]);
     }
 }
