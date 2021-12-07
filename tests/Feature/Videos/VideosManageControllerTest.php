@@ -17,7 +17,7 @@ class VideosManageControllerTest extends TestCase
     public function user_with_permissions_can_manage_videos()
     {
         $this->loginAsVideoManager();
-        
+
         $videos = create_sample_videos();
 
         $response = $this->get('/manage/videos');
