@@ -1,11 +1,12 @@
 <x-casteaching-layout>
+
     <div class="flex flex-col mt-10">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                     <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
                         <h3 class="text-lg leading-6 font-medium text-gray-900">
-                            Videos
+                            Users
                         </h3>
                     </div>
                     <table class="min-w-full divide-y divide-gray-200">
@@ -15,13 +16,13 @@
                                 Id
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Title
+                                Name
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Description
+                                Email
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                URL
+                                Superadmin
                             </th>
                             <th scope="col" class="relative px-6 py-3">
                                 <span class="sr-only">Actions</span>
@@ -29,22 +30,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($videos as $video)
+                        <!-- Odd row -->
+                        @foreach($users as $user)
                             <tr class="bg-white">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    {{ $video->id }}
+                                    {{ $user->id }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $video->title }}
+                                    {{ $user->name }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $video->description }}
+                                    {{ $user->email }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $video->url }}
+                                    {{ $user->superadmin }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="/videos/{{$video->id}}" target="_blank" class="text-indigo-600 hover:text-indigo-900">Show</a>
+                                    <a href="/users/{{$user->id}}" target="_blank" class="text-indigo-600 hover:text-indigo-900">Show</a>
                                     <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                     <a href="#" class="text-indigo-600 hover:text-indigo-900">Delete</a>
                                 </td>
