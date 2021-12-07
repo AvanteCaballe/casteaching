@@ -31,7 +31,7 @@ if ( !function_exists('create_default_videos')) {
             'description' => '# Here description',
             'url' => 'https://youtu.be/w8j07_DBl_I',
             'published_at' => Carbon::parse('December 13, 2020 8:00pm'),
-            'completed' => false,
+            'completed' => null,
             'previous' => null,
             'next' => null,
             'series_id' => 1
