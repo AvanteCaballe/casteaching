@@ -20,11 +20,6 @@ class VideoManageController extends Controller
         ]);
     }
 
-//    public function create()
-//    {
-//        //
-//    }
-
     public function store(Request $request)
     {
         Video::create([
@@ -53,6 +48,8 @@ class VideoManageController extends Controller
 
     public function destroy($id)
     {
-        //
+        Video::find($id)->delete();
+        session()->flash('status', 'Successfully removed');
+        return redirect()->route('manage.videos');
     }
 }
