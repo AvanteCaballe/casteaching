@@ -21,10 +21,10 @@ class UsersManageController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        //
-    }
+//    public function create()
+//    {
+//        //
+//    }
 
     public function store(Request $request)
     {
@@ -42,10 +42,10 @@ class UsersManageController extends Controller
         return redirect()->route('manage.users');
     }
 
-    public function show($id)
-    {
-        //
-    }
+//    public function show($id)
+//    {
+//        //
+//    }
 
     public function edit($id)
     {

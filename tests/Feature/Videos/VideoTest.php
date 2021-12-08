@@ -27,19 +27,18 @@ class VideoTest extends TestCase
             'description' => '# Here description',
             'url' => 'https://youtu.be/w8j07_DBl_I',
             'published_at' => Carbon::parse('December 13, 2020 8:00pm'),
-            'completed' => false,
             'previous' => null,
             'next' => null,
             'series_id' => 1
         ]);
 
         $response = $this->get('/videos/' . $video->id);
-        dd($video->id);
 
         $response->assertStatus(200);
         $response->assertSee('Ubuntu 101');
-        $response->assertSee('# Here description');
+        $response->assertSee('Here description');
         $response->assertSee('13 de desembre de 2020');
+        $response->assertSee('https://youtu.be/w8j07_DBl_I');
     }
     /**
      * @test
