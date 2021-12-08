@@ -54,7 +54,7 @@
                                                         Password
                                                     </label>
                                                     <div class="mt-1 flex rounded-md shadow-sm">
-                                                        <input required type="password" name="password" id="password" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" placeholder="">
+                                                        <input required type="password" name="password" id="password" class="shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"  placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -122,7 +122,8 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <a href="/users/{{$user->id}}" target="_blank" class="text-indigo-600 hover:text-indigo-900">Show</a>
-                                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>                                <form class="inline" action="/manage/users/{{$user->id}}" method="POST">
+                                    <a href="/manage/users/{{$user->id}}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                    <form class="inline" action="/manage/users/{{$user->id}}" method="POST">
                                         @csrf
                                         @method('DELETE')
 

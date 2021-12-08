@@ -43,6 +43,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         ->name('manage.users');
     Route::post('/manage/users',[ UsersManageController::class,'store' ])
         ->middleware(['can:users_manage_store']);
+    Route::get('/manage/users/{id}', [UsersManageController::class, 'edit'])
+        ->middleware(['can:users_manage_edit']);
+    Route::put('/manage/users/{id}', [UsersManageController::class, 'update'])
+        ->middleware(['can:users_manage_update']);
     Route::delete('/manage/users/{id}',[ UsersManageController::class,'destroy' ])
         ->middleware(['can:users_manage_destroy']);
 });
