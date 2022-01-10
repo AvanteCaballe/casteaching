@@ -1,14 +1,20 @@
 import VideosList from "./components/VideosList";
 import Alpine from 'alpinejs';
 import casteaching from 'casteaching';
-import vue from 'vue';
+import Vue from 'vue';
+import VideoForm from "./components/VideoForm";
 
 require('./bootstrap');
 
 window.Alpine = Alpine;
 window.casteaching = casteaching;
-window.vue = vue;
+window.Vue = Vue;
 
-window.vue.component('videos-list', VideosList)
+window.Vue.component('videos-list', VideosList)
+window.Vue.component('video-form', VideoForm)
 
 Alpine.start();
+
+const app = new window.Vue({
+    el: '#app',
+});

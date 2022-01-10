@@ -1,5 +1,4 @@
 <template>
-    $END$
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -43,7 +42,9 @@
                             {{ video.url }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            TODO ACTIONS
+                            <video-show-link :video="video"></video-show-link>
+                            <video-edit-link :video="video"></video-edit-link>
+                            <video-destroy-link :video="video"></video-destroy-link>
                         </td>
                     </tr>
                     </tbody>
@@ -54,13 +55,19 @@
 </template>
 
 <script>
-export default {
-    name: "VideosList"
-    export default
+import VideoShowLink from "./VideoShowLink";
+import VideoEditLink from "./VideoEditLink";
+import VideoDestroyLink from "./VideoDestroyLink";
+export default
 {
     name: "VideosList",
-        data() {
-    return {
+    components: {
+        'video-show-link': VideoShowLink,
+        'video-edit-link': VideoEditLink,
+        'video-destroy-link': VideoDestroyLink
+    },
+    data() {
+        return {
         //         [
         //             {
         //                 "id": 1,
