@@ -31,11 +31,6 @@ class VideoManageController extends Controller
         return redirect()->route('manage.videos');
     }
 
-    public function show($id)
-    {
-        //
-    }
-
     public function edit($id)
     {
         return view('videos.manage.edit',['video' => Video::findOrFail($id) ]);
