@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\VideoCreated;
 use App\Models\Video;
 use Illuminate\Http\Request;
-use Tests\Feature\VideosManageControllerTest;
+use Tests\Feature\Videos\VideosManageControllerTest;
 
 class VideoManageController extends Controller
 {
