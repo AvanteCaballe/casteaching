@@ -10,47 +10,69 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/@acacha/casteaching/node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 
-// TOKEN YSqXe8KJiHfx3Z9MGaoic0heLIZ0ifv9ZODV30r0
-const apiClient = axios__WEBPACK_IMPORTED_MODULE_0___default().create({
-    baseURL: 'http://casteaching.test/api',
-    withCredentials: true,
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer YSqXe8KJiHfx3Z9MGaoic0heLIZ0ifv9ZODV30r0'
-    }
-})
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(options) {
+    let apiClient = axios__WEBPACK_IMPORTED_MODULE_0___default().create({
+        baseURL: (options && options.baseUrl) || "https://casteaching.test/api",
+        withCredentials: true,
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-    videos: async function() {
-        const response = await apiClient.get('/videos')
-        return response.data
-    },
-    video: {
-        show: async function(id) {
-            const response = await apiClient.get('/videos/' + id)
+    return {
+        token: null,
+        setToken: function(token) {
+            this.token = token
+            apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + this.token;
+        },
+        series: async function() {
+            const response = await apiClient.get('/series')
             return response.data
         },
-        create: async function(data) {
-            const response = await apiClient.post('/videos',data)
+        videos: async function() {
+            const response = await apiClient.get('/videos')
             return response.data
         },
-        update: async function(id, data) {
-            const response = await apiClient.put('/videos/' + id,data)
+        login:  async function(email,password,device_name) {
+            const postData = {
+                email,
+                password,
+                device_name,
+            }
+            const response = await apiClient.post('/sanctum/token', postData)
             return response.data
         },
-        destroy: async function(id) {
-            const response = await apiClient.delete('/videos/' + id)
+        user:  async function() {
+            const response = await apiClient.get('/user')
             return response.data
         },
+        video: {
+            show: async function(id) {
+                const response = await apiClient.get('/videos/' + id)
+                return response.data
+            },
+            create: async function(data) {
+                const response = await apiClient.post('/videos',data)
+                return response.data
+            },
+            update: async function(id, data) {
+                const response = await apiClient.put('/videos/' + id,data)
+                return response.data
+            },
+            destroy: async function(id) {
+                const response = await apiClient.delete('/videos/' + id)
+                return response.data
+            },
+        }
     }
-});
+}
 
 
 
@@ -8142,7 +8164,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return window.casteaching.videos();
+                return window.casteaching().videos();
 
               case 2:
                 _this2.videos = _context2.sent;
