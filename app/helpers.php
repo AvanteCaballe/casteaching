@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Serie;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Video;
@@ -8,11 +9,12 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 
-if ( !function_exists('create_default_user')) {
-    function create_default_user() {
+if (! function_exists('create_default_user')) {
+    function create_default_user()
+    {
         $user = User::create([
-            'name' => config('casteaching.default_user.name','Marc Avante Caballé'),
-            'email' => config('casteaching.default_user.email', 'marcavantecaballe@gmail.com'),
+            'name' => config('casteaching.default_user.name', 'Sergi Tur Badenas'),
+            'email' => config('casteaching.default_user.email','sergiturbadenas@gmail.com'),
             'password' => Hash::make(config('casteaching.default_user.password','12345678'))
         ]);
 
@@ -23,35 +25,37 @@ if ( !function_exists('create_default_user')) {
     }
 }
 
-
-if ( !function_exists('create_default_videos')) {
-    function create_default_videos() {
+if (! function_exists('create_default_videos')) {
+    function create_default_videos()
+    {
         Video::create([
             'title' => 'Ubuntu 101',
             'description' => '# Here description',
-            'url' => 'https://youtu.be/w8j07_DBl_I',
+            'url' => 'https://www.youtube.com/embed/w8j07_DBl_I',
             'published_at' => Carbon::parse('December 13, 2020 8:00pm'),
-            'completed' => null,
             'previous' => null,
             'next' => null,
-            'series_id' => 1
+            'serie_id' => 1
         ]);
     }
 }
+
 if (! function_exists('create_regular_user')) {
-    function create_regular_user() {
+    function create_regular_user()
+    {
         $user = User::create([
             'name' => 'Pepe Pringao',
             'email' => 'pringao@casteaching.com',
-            'password' => Hash::make('12345678'),
+            'password' => Hash::make('12345678')
         ]);
 
         add_personal_team($user);
+
         return $user;
     }
 }
 
-if ( !function_exists('create_video_manager_user')) {
+if (! function_exists('create_video_manager_user')) {
     function create_video_manager_user() {
         $user = User::create([
             'name' => 'VideosManager',
@@ -60,17 +64,19 @@ if ( !function_exists('create_video_manager_user')) {
         ]);
 
         Permission::create(['name' => 'videos_manage_index']);
+        Permission::create(['name' => 'videos_manage_show']);
         Permission::create(['name' => 'videos_manage_create']);
         Permission::create(['name' => 'videos_manage_store']);
         Permission::create(['name' => 'videos_manage_edit']);
         Permission::create(['name' => 'videos_manage_update']);
         Permission::create(['name' => 'videos_manage_destroy']);
         $user->givePermissionTo('videos_manage_index');
+        $user->givePermissionTo('videos_manage_show');
         $user->givePermissionTo('videos_manage_create');
         $user->givePermissionTo('videos_manage_store');
+        $user->givePermissionTo('videos_manage_destroy');
         $user->givePermissionTo('videos_manage_edit');
         $user->givePermissionTo('videos_manage_update');
-        $user->givePermissionTo('videos_manage_destroy');
 
         add_personal_team($user);
         return $user;
@@ -80,7 +86,7 @@ if ( !function_exists('create_video_manager_user')) {
 if (! function_exists('create_user_manager_user')) {
     function create_user_manager_user() {
         $user = User::create([
-            'name' => 'UserManager',
+            'name' => 'UsersManager',
             'email' => 'usersmanager@casteaching.com',
             'password' => Hash::make('12345678')
         ]);
@@ -88,14 +94,10 @@ if (! function_exists('create_user_manager_user')) {
         Permission::create(['name' => 'users_manage_index']);
         Permission::create(['name' => 'users_manage_create']);
         Permission::create(['name' => 'users_manage_store']);
-        Permission::create(['name' => 'users_manage_edit']);
-        Permission::create(['name' => 'users_manage_update']);
         Permission::create(['name' => 'users_manage_destroy']);
         $user->givePermissionTo('users_manage_index');
         $user->givePermissionTo('users_manage_create');
         $user->givePermissionTo('users_manage_store');
-        $user -> givePermissionTo('users_manage_edit');
-        $user -> givePermissionTo('users_manage_update');
         $user->givePermissionTo('users_manage_destroy');
 
         add_personal_team($user);
@@ -103,21 +105,24 @@ if (! function_exists('create_user_manager_user')) {
     }
 }
 
-if ( !function_exists('create_superadmin_user')) {
-    function create_superadmin_user()
-    {
+
+if (! function_exists('create_superadmin_user')) {
+    function create_superadmin_user() {
         $user = User::create([
             'name' => 'SuperAdmin',
             'email' => 'superadmin@casteaching.com',
-            'password' => Hash::make('12345678'),
+            'password' => Hash::make('12345678')
         ]);
         $user->superadmin = true;
         $user->save();
 
         add_personal_team($user);
+
         return $user;
     }
+}
 
+if (! function_exists('add_personal_team')) {
     /**
      * @param $user
      */
@@ -130,27 +135,22 @@ if ( !function_exists('create_superadmin_user')) {
                 'personal_team' => true
             ]);
         } catch (\Exception $exception) {
-
+//            dd($exception->getMessage());
         }
     }
 }
+
 
 if (! function_exists('define_gates')) {
     function define_gates() {
 
         Gate::before(function ($user, $ability) {
-           if ($user->isSuperAdmin()) {
-               return true;
-           }
+            if ($user->isSuperAdmin()) {
+                return true;
+            }
         });
-        Gate::define('videos_manage_index', function(User $user) {
-            if ($user->isSuperAdmin()) return true;
-            return false;
-        });
-//        Gate::define('videos_manage_create', function(User $user) {
-//            if ($user->isSuperAdmin()) return true;
-//            return false;
-//        });
+
+
     }
 }
 
@@ -159,9 +159,9 @@ if (! function_exists('create_permissions')) {
         Permission::firstOrCreate(['name' => 'videos_manage_index']);
         Permission::firstOrCreate(['name' => 'videos_manage_create']);
         Permission::firstOrCreate(['name' => 'videos_manage_store']);
+        Permission::firstOrCreate(['name' => 'videos_manage_destroy']);
         Permission::firstOrCreate(['name' => 'videos_manage_edit']);
         Permission::firstOrCreate(['name' => 'videos_manage_update']);
-        Permission::firstOrCreate(['name' => 'videos_manage_destroy']);
     }
 }
 
@@ -175,25 +175,26 @@ if (! function_exists('create_sample_video')) {
     }
 }
 
-
 if (! function_exists('create_sample_videos')) {
     function create_sample_videos() {
         $video1 = Video::create([
-            'title' => 'Vídeo 1',
+            'title' => 'TDD 115',
             'description' => 'Bla bla bla',
-            'url' => 'https://youtu.be/a-3kfT9hZk4'
+            'url' => 'https://www.youtube.com/embed/jKMTRtkXAF0'
         ]);
         $video2 = Video::create([
-            'title' => 'Vídeo 2',
+            'title' => 'Laravel JetStream',
             'description' => 'Bla bla bla',
-            'url' => 'https://youtu.be/a7GV5aReVDQ'
+            'url' => 'https://www.youtube.com/embed/zyABmm6Dw64'
         ]);
         $video3 = Video::create([
-            'title' => 'Vídeo 3',
-            'description' => 'Bla bla bla',
-            'url' => 'https://youtu.be/--ZfoRC2JBw'
+            'title' => 'Ubuntu 101',
+            'description' => '# Header 1
+            Bla bla bla
+            # Header 2
+            Bla bla bla 2',
+            'url' => 'https://www.youtube.com/embed/w8j07_DBl_I'
         ]);
-
         return [$video1, $video2, $video3];
     }
 }
@@ -288,5 +289,39 @@ if (! function_exists('objectify')) {
     function objectify($array)
     {
         return new DomainObject($array);
+    }
+}
+
+if (! function_exists('create_sample_series')) {
+    function create_sample_series()
+    {
+        $serie1 = Serie::create([
+            'title' => 'TDD (Test Driven Development)',
+            'description' => 'Bla bla bla',
+            'image' => 'tdd.png',
+            'teacher_name' => 'Sergi Tur Badenas',
+            'teacher_photo_url' => 'https://www.gravatar.com/avatar/' . md5('sergiturbadenas@gmail.com')
+        ]);
+
+        sleep(1);
+        $serie2 = Serie::create([
+            'title' => 'Crud amb Vue i Laravel',
+            'description' => 'Bla bla bla',
+            'image' => 'crud_amb_vue_laravel.png',
+            'teacher_name' => 'Sergi Tur Badenas',
+            'teacher_photo_url' => 'https://www.gravatar.com/avatar/' . md5('sergiturbadenas@gmail.com')
+        ]);
+
+        sleep(1);
+
+        $serie3 = Serie::create([
+            'title' => 'ionic Real world',
+            'description' => 'Bla bla bla',
+            'image' => 'ionic_real_world.png',
+            'teacher_name' => 'Sergi Tur Badenas',
+            'teacher_photo_url' => 'https://www.gravatar.com/avatar/' . md5('sergiturbadenas@gmail.com')
+        ]);
+
+        return [$serie1,$serie2,$serie3];
     }
 }

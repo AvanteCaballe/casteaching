@@ -1,39 +1,26 @@
 <?php
-
 namespace Tests\Feature\Videos;
-
+use App\Models\User;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Hash;
+use Tests\Feature\Traits\CanLogin;
 use Tests\TestCase;
-
-
 /**
  * @covers \App\Http\Controllers\VideosController
  */
-
 class VideoTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, CanLogin;        // ESTAT PRECONEGUT -> ZERO STATE
     /**
      * @test
      */
-
     public function users_can_view_videos()
     {
-        $video = Video::create([
-            'title' => 'Ubuntu 101',
-            'description' => '# Here description',
-            'url' => 'https://youtu.be/w8j07_DBl_I',
-            'published_at' => Carbon::parse('December 13, 2020 8:00pm'),
-            'previous' => null,
-            'next' => null,
-            'series_id' => 1
-        ]);
-
-        $response = $this->get('/videos/' . $video->id);
-
+        $video = $this->createPublishedVideo();
+        $response = $this->get('/videos/' . $video->id); // SLUGS -> SEO -> TODO
         $response->assertStatus(200);
         $response->assertSee('Ubuntu 101');
         $response->assertSee('Here description');
@@ -43,11 +30,70 @@ class VideoTest extends TestCase
     /**
      * @test
      */
-    public function users_can_not_view_not_existing_videos()
+    public function users_cannot_view_not_existing_videos()
     {
         $response = $this->get('/videos/999');
-
         $response->assertStatus(404);
+    }
+    /**
+     * @test
+     */
 
+    /**
+     * @test
+     */
+
+    /**
+     * @test
+     */
+    public function manager_can_view_unpublished_videos()
+    {
+        $video = $this->createUnpublishedVideo();
+        $this->loginAsVideoManager();
+        $response = $this->get('/videos/' . $video->id);
+        $response->assertSuccessful();
+    }
+
+    /**
+     * @test
+     */
+    public function superadmin_can_view_unpublished_videos()
+    {
+        $video = $this->createUnpublishedVideo();
+        $this->loginAsSuperAdmin();
+        $response = $this->get('/videos/' . $video->id);
+        $response->assertSuccessful();
+    }
+    /**
+     * @return mixed
+     */
+    public function createPublishedVideo()
+    {
+        $video = Video::create([
+            'title' => 'Ubuntu 101',
+            'description' => '# Here description',
+            'url' => 'https://youtu.be/w8j07_DBl_I',
+            'published_at' => Carbon::parse('December 13, 2020 8:00pm'),
+            'previous' => null,
+            'next' => null,
+            'serie_id' => 1
+        ]);
+        return $video;
+    }
+    /**
+     * @return mixed
+     */
+    public function createUnPublishedVideo()
+    {
+        $video = Video::create([
+            'title' => 'Ubuntu 101',
+            'description' => '# Here description',
+            'url' => 'https://youtu.be/w8j07_DBl_I',
+            'published_at' => null,
+            'previous' => null,
+            'next' => null,
+            'serie_id' => 1
+        ]);
+        return $video;
     }
 }

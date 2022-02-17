@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * @covers SendVideoCreatedNotification::class
+ * @covers SendVideoCreatedNotificationTODO::class
  */
 class SendVideoCreatedNotificationTest extends TestCase
 {
@@ -34,7 +34,5 @@ class SendVideoCreatedNotificationTest extends TestCase
                 return in_array('mail',$channels) && ($notifiable->routes['mail'] === $admins) && Str::contains($notification->toMail($notifiable)->render(), $video->title);
             }
         );
-
-
     }
 }
