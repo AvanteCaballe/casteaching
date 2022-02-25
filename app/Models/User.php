@@ -113,9 +113,9 @@ class User extends Authenticatable
                     'github_token' => $githubUser->token,
                     'github_refresh_token' => $githubUser->refreshToken,
                 ]);
+                add_personal_team($user);
             }
         }
-
         return $user;
     }
 }

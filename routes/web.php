@@ -5,6 +5,7 @@ use App\Http\Controllers\UsersManageController;
 use App\Http\Controllers\VideoManageController;
 use App\Http\Controllers\VideosController;
 use App\Http\Controllers\VideosManageVueController;
+use App\Http\Controllers\LandingPageController;
 use Illuminate\Support\Facades\Route;
 use GitHub\Sponsors\Client;
 
@@ -19,10 +20,9 @@ use GitHub\Sponsors\Client;
 |
 */
 
-Route::get('/', [ \App\Http\Controllers\LandingPageController::class,'show']);
+Route::get('/', [ LandingPageController::class,'show']);
 
 Route::get('/videos/{id}', [ VideosController::class, 'show']);
-
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
@@ -59,26 +59,23 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/vue/manage/videos/{id}',[ VideosManageVueController::class,'edit' ])->middleware(['can:videos_manage_edit']);
     Route::put('/vue/manage/videos/{id}',[ VideosManageVueController::class,'update' ])->middleware(['can:videos_manage_update']);
 
-    Route::get('/github_sponsors', function () {
-        $client = app(Client::class);
-        dump($sponsors = $client->login('acacha')->sponsors());
-        foreach ($sponsors as $sponsor) {
-            dump($sponsor['avatarUrl']); // The sponsor's GitHub avatar url...
-            dump($sponsor['name']); // The sponsor's GitHub name...
-        }
-
-        dump($sponsors = $client->login('driesvints')->sponsors());
-        foreach ($sponsors as $sponsor) {
-            dump($sponsor);
-        }
-
-        dd($client->login('acacha')->isSponsoredBy('acacha'));
-    });
-
-
-
-    Route::get('/auth/redirect', [GithubAuthController::class,'redirect']);
-
-    Route::get('/auth/callback', [GithubAuthController::class,'callback']);
 });
+
+Route::get('/github_sponsors', function () {
+    $client = app(Client::class);
+    dump($sponsors = $client->login('acacha')->sponsors());
+    foreach ($sponsors as $sponsor) {
+        dump($sponsor['avatarUrl']); // The sponsor's GitHub avatar url...
+        dump($sponsor['name']); // The sponsor's GitHub name...
+    }
+
+    dump($sponsors = $client->login('driesvints')->sponsors());
+    foreach ($sponsors as $sponsor) {
+        dump($sponsor);
+    }
+});
+
+Route::get('/auth/redirect', [GithubAuthController::class,'redirect']);
+
+Route::get('/auth/callback', [GithubAuthController::class,'callback']);
 

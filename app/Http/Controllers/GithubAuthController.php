@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Tests\Feature\GithubAuthControllerTest;
 
@@ -16,6 +13,7 @@ class GithubAuthController extends Controller
     {
         return GithubAuthControllerTest::class;
     }
+
 
     public function redirect() {
         return Socialite::driver('github')->redirect();
