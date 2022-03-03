@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
     {
         create_default_user();
 
+        create_sergi_user();
+
         create_superadmin_user();
 
         create_regular_user();

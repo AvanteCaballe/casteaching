@@ -25,6 +25,23 @@ if (! function_exists('create_default_user')) {
     }
 }
 
+if (! function_exists('create_sergi_user')) {
+    function create_sergi_user()
+    {
+        $user = User::create([
+            'name' => 'Sergi Tur Badenas',
+            'email' => 'sergiturbadenas@gmail.com',
+            'password' => Hash::make('12345678')
+        ]);
+        $user->superadmin = true;
+        $user->save();
+
+        add_personal_team($user);
+
+        return $user;
+    }
+}
+
 if (! function_exists('create_default_videos')) {
     function create_default_videos()
     {
