@@ -15,7 +15,6 @@
                 @can('videos_manage_create')
                     <video-form></video-form>
                 @endcan
-
                     <videos-list></videos-list>
             </div>
         </div>

@@ -5,7 +5,7 @@
                 <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
                     <h3 class="text-lg leading-6 font-medium text-gray-900">
                         Videos
-                        <button @click="refresh">
+                        <button @click="refresh" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             refresh
                         </button>
                     </h3>
@@ -112,7 +112,7 @@ export default
     methods: {
 
         async getVideos() {
-            this.videos = await window.casteaching().videos()
+            this.videos = await window.casteaching.videos()
         },
         async refresh() {
             this.getVideos()
