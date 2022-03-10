@@ -38,9 +38,10 @@ class HelpersTest extends TestCase
     /**
      * @test
      */
-    public function create_default_videos(){
+    public function create_default_videos()
+    {
         create_default_videos();
 
-        $this->assertDatabaseCount('videos','1');
+        $this->assertDatabaseCount('videos', 1);
     }
 }
