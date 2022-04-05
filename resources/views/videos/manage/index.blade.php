@@ -8,7 +8,7 @@
         <div class="mx-auto sm:px-6 lg:px-8 w-full max-w-7xl">
             <x-status></x-status>
     @can('videos_manage_create')
-                <x-jet-form-section>
+                <x-jet-form-section data-qa="form_video_create">
                     <x-slot name="title">
                         {{ __('Vídeos') }}
                     </x-slot>

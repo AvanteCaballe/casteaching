@@ -64,7 +64,7 @@ class GithubAuthControllerTest extends TestCase
     public function can_process_a_github_callback_if_user_with_same_github_id_exists()
     {
         $sergi = User::create([
-            'name' => 'Pepe',
+            'name' => 'Sergi Tur Badenas',
             'email' => 'dsaasd@dassd.es',
             'password' => Hash::make('12345678'),
             'github_id' => GithubDriverMock::ID
@@ -105,7 +105,7 @@ class GithubAuthControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $sergi = User::create([
-            'name' => 'Pepe',
+            'name' => 'Sergi Tur Badenas',
             'email' => GithubDriverMock::EMAIL,
             'password' => Hash::make('12345678'),
         ]);
