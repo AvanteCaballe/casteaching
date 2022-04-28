@@ -171,10 +171,6 @@
                         <div class="w-full flex md:ml-0">
                             <label for="search-field" class="sr-only">Search</label>
                             <div class="relative w-full text-gray-400 focus-within:text-gray-600">
-                                <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none">
-                                    <span class="hidden md:inline md:mr-2"><--</span> <img class="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0 mr-2" src="/storage/{{ $video->serie?->image_url }}" alt="">
-                                    <span class="w-48 truncate" title="{{ $video->serie?->title }}">{{ $video->serie?->title }}</span>
-                                </div>
                             </div>
                         </div>
                     </div>
