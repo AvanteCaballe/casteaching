@@ -8,6 +8,7 @@ use App\Http\Controllers\VideoManageController;
 use App\Http\Controllers\VideosController;
 use App\Http\Controllers\VideosManageVueController;
 use App\Http\Controllers\LandingPageController;
+use Kanuu\Laravel\Facades\Kanuu;
 use Illuminate\Support\Facades\Route;
 use GitHub\Sponsors\Client;
 
@@ -90,3 +91,6 @@ Route::get('/auth/redirect', [GithubAuthController::class,'redirect']);
 
 Route::get('/auth/callback', [GithubAuthController::class,'callback']);
 
+Kanuu::redirectRoute()
+    ->middleware('auth')
+    ->name('kanuu.redirect');
