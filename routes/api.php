@@ -27,7 +27,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::put('/videos/{id}', [ VideosApiController::class,'update'])->middleware(['can:videos_manage_update']);
     Route::delete('/videos/{id}', [ VideosApiController::class,'destroy'])->middleware(['can:videos_manage_destroy']);
 });
-
 Route::post('/sanctum/token',\App\Http\Controllers\SanctumTokenController::class);
 Route::get('/series', [ SeriesApiController::class,'index']);
 Route::get('/series/{id}', [ SeriesApiController::class,'show']);

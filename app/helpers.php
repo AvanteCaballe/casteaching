@@ -5,8 +5,10 @@ use App\Models\Team;
 use App\Models\User;
 use App\Models\Video;
 use Carbon\Carbon;
+use Illuminate\Http\File;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Permission;
 
 if (! function_exists('create_default_user')) {
@@ -68,6 +70,34 @@ if (! function_exists('create_regular_user')) {
 
         add_personal_team($user);
 
+        return $user;
+    }
+}
+
+if (! function_exists('create_series_manager_user')) {
+    function create_series_manager_user() {
+        $user = User::create([
+            'name' => 'SeriesManager',
+            'email' => 'seriesmanager@casteaching.com',
+            'password' => Hash::make('12345678')
+        ]);
+
+        Permission::create(['name' => 'series_manage_index']);
+        Permission::create(['name' => 'series_manage_show']);
+        Permission::create(['name' => 'series_manage_create']);
+        Permission::create(['name' => 'series_manage_store']);
+        Permission::create(['name' => 'series_manage_edit']);
+        Permission::create(['name' => 'series_manage_update']);
+        Permission::create(['name' => 'series_manage_destroy']);
+        $user->givePermissionTo('series_manage_index');
+        $user->givePermissionTo('series_manage_show');
+        $user->givePermissionTo('series_manage_create');
+        $user->givePermissionTo('series_manage_store');
+        $user->givePermissionTo('series_manage_destroy');
+        $user->givePermissionTo('series_manage_edit');
+        $user->givePermissionTo('series_manage_update');
+
+        add_personal_team($user);
         return $user;
     }
 }
@@ -202,7 +232,9 @@ if (! function_exists('create_sample_videos')) {
         $video2 = Video::create([
             'title' => 'Laravel JetStream',
             'description' => 'Bla bla bla',
-            'url' => 'https://www.youtube.com/embed/zyABmm6Dw64'
+            'url' => 'https://www.youtube.com/embed/zyABmm6Dw64',
+            'published_at' => Carbon::parse('December 13, 2020 8:00pm'),
+
         ]);
         $video3 = Video::create([
             'title' => 'Ubuntu 101',
@@ -309,36 +341,54 @@ if (! function_exists('objectify')) {
     }
 }
 
+if (! function_exists('create_placeholder_series_image')) {
+    function create_placeholder_series_image()
+    {
+        return Storage::disk('public')->putFileAs('series', new File(base_path('/series_photos/placeholder.png')),'placeholder.png');
+    }
+}
+
+
 if (! function_exists('create_sample_series')) {
     function create_sample_series()
     {
+        $path = Storage::disk('public')->putFile('series', new File(base_path('series_photos/tdd.png')));
         $serie1 = Serie::create([
             'title' => 'TDD (Test Driven Development)',
             'description' => 'Bla bla bla',
-            'image' => 'tdd.png',
+            'image' => $path,
             'teacher_name' => 'Sergi Tur Badenas',
             'teacher_photo_url' => 'https://www.gravatar.com/avatar/' . md5('sergiturbadenas@gmail.com')
         ]);
 
         sleep(1);
+        $path = Storage::disk('public')->putFile('series', new File(base_path('series_photos/crud_amb_vue_laravel.png')));
         $serie2 = Serie::create([
             'title' => 'Crud amb Vue i Laravel',
             'description' => 'Bla bla bla',
-            'image' => 'crud_amb_vue_laravel.png',
+            'image' => $path,
             'teacher_name' => 'Sergi Tur Badenas',
             'teacher_photo_url' => 'https://www.gravatar.com/avatar/' . md5('sergiturbadenas@gmail.com')
         ]);
 
         sleep(1);
+        $path = Storage::disk('public')->putFile('series', new File(base_path('series_photos/ionic_real_world.png')));
 
         $serie3 = Serie::create([
             'title' => 'ionic Real world',
             'description' => 'Bla bla bla',
-            'image' => 'ionic_real_world.png',
+            'image' => $path,
             'teacher_name' => 'Sergi Tur Badenas',
             'teacher_photo_url' => 'https://www.gravatar.com/avatar/' . md5('sergiturbadenas@gmail.com')
         ]);
 
-        return [$serie1,$serie2,$serie3];
+        sleep(1);
+
+        $serie4 = Serie::create([
+            'title' => 'Serie TODO',
+            'description' => 'Bla bla bla',
+        ]);
+
+        return [$serie1,$serie2,$serie3,$serie4];
     }
 }
