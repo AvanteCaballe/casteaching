@@ -15,39 +15,63 @@ class VideoTest extends TestCase
 {
     use RefreshDatabase;
 
-
-    /** @test */
-    public function todo()
+    /**
+     * @test
+     */
+    public function can_check_if_video_can_be_displayed()
     {
-        $serie = Serie::create([
-            'title' => 'TDD (Test Driven Development)',
-            'description' => 'Bla bla bla',
-            'image' => 'series/placeholder.pnh',
-            'teacher_name' => 'Sergi Tur Badenas',
-            'teacher_photo_url' => 'https://www.gravatar.com/avatar/' . md5('sergiturbadenas@gmail.com')
+        $video = Video::create([
+            'title' => 'Ubuntu 101',
+            'description' => '# Here description',
+            'url' => 'https://youtu.be/w8j07_DBl_I',
+            'published_at' => Carbon::parse('December 13, 2020 8:00pm')
         ]);
 
-        $video1 = Video::create([
-            'title' => 'TDD 101',
+        $this->assertTrue($video->canBeDisplayed());
+
+        $video->markAsOnlyForSubscribers();
+        $video->refresh();
+
+        $this->assertFalse($video->canBeDisplayed());
+    }
+
+    /**
+     * @test
+     */
+    public function a_video_can_need_a_subscription()
+    {
+        $video = Video::create([
+            'title' => 'Ubuntu 101',
+            'description' => '# Here description',
+            'url' => 'https://youtu.be/w8j07_DBl_I',
+            'published_at' => Carbon::parse('December 13, 2020 8:00pm')
+        ]);
+
+        $this->assertNull($video->needs_subscription);
+        // Video needs subscription -> needs_subscription
+        $video->markAsOnlyForSubscribers();
+        $video->refresh();
+        $this->assertNotNull($video->needs_subscription);
+    }
+
+    /**
+     * @test
+     */
+    public function can_check_if_a_video_need_subscriber()
+    {
+        $video = Video::create([
+            'title' => 'Ubuntu 101',
             'description' => '# Here description',
             'url' => 'https://youtu.be/w8j07_DBl_I',
             'published_at' => Carbon::parse('December 13, 2020 8:00pm'),
-            'previous' => null,
-            'next' => null,
-            'serie_id' => $serie->id
         ]);
 
-        $video2 = Video::create([
-            'title' => 'TDD 102',
-            'description' => '# Here description',
-            'url' => 'https://youtu.be/w8j07_DBl_I',
-            'published_at' => Carbon::parse('December 13, 2020 8:00pm'),
-            'previous' => null,
-            'next' => null,
-            'serie_id' => $serie->id
-        ]);
+        $this->assertFalse($video->only_for_subscribers);
 
-        dd($video2->serie?->videos);
+        $video->markAsOnlyForSubscribers();
+        $video->refresh();
+
+        $this->assertTrue($video->only_for_subscribers);
     }
 
     /** @test */
